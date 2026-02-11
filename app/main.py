@@ -1,10 +1,19 @@
 from fastapi import FastAPI
 from app.router.userRouter import router as userRoter
 from app.database import init_db
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 app.include_router(userRoter, prefix='/api')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:5173'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
 
 async def startup_event():
     init_db()
