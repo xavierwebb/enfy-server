@@ -22,3 +22,6 @@ DEV-LOGS:
 - 10 february 2026: 
 
     Today I added the basic structure of the app. I implemented the initial user endpoints, services, and schemas, set up the database connection, and created the user model.
+
+- 11 February 2026:
+    Today I implemented Login Endpoint and a Small fix in the Register Endpoint
