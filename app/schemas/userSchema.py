@@ -13,7 +13,8 @@ class UserDefinitive(UserBase):
         from_attributes = True
 
 
-class UserLog(UserBase):
+class UserLog(BaseModel):
+    email: str
     password: str
 
 class UserReg(UserBase):

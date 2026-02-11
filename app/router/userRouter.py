@@ -2,7 +2,7 @@ from fastapi import HTTPException, APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services import userService
-from app.schemas.userSchema import UserDefinitive, UserReg
+from app.schemas.userSchema import UserDefinitive, UserReg, UserLog
 router = APIRouter(
     prefix='/users',
     tags=['Users']
@@ -23,3 +23,14 @@ def create_user(data: UserReg, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail='Email already registered')
     
     return userService.create_user(db, data)
+
+@router.post('/loginUser', response_model=UserDefinitive)
+def login_user(data: UserLog, db: Session = Depends(get_db)):
+    db_user = userService.get_userByEmail(db, data.email)
+    if not db_user:
+        raise HTTPException(status_code=404, detail='User not found')
+    
+    if db_user.password == data.password:
+        return db_user
+    
+    raise HTTPException(status_code=401, detail='Incorrect password')
