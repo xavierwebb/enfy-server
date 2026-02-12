@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-from app.router.userRouter import router as userRoter
+from app.router.userRouter import router as userRouter
+from app.router.eventRouter import router as eventRouter
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-app.include_router(userRoter, prefix='/api')
+app.include_router(userRouter, prefix='/api')
+app.include_router(eventRouter, prefix='/api')
 
 app.add_middleware(
     CORSMiddleware,
