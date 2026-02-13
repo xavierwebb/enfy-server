@@ -25,3 +25,10 @@ DEV-LOGS:
 
 - 11 February 2026:
     Today I implemented Login Endpoint and a Small fix in the Register Endpoint
+
+- 12 february 2026:
+
+    Today I implemented the event structure, models, endpoints, and services. My initial plan for this branch was to add all of that along with the search engine. However, the day is almost over and I was only able to complete the events part. I plan to finish the search engine tomorrow and then push the commits to the main branch.
+
+- 13 february 2026:
+    I implemented the search engine, it works nicely using the name or description for search in the events table and return the events that match with the name or the description, anyways, Maybe in a future i will add the user search or maybe not.
