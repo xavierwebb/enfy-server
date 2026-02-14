@@ -32,3 +32,6 @@ DEV-LOGS:
 
 - 13 february 2026:
     I implemented the search engine, it works nicely using the name or description for search in the events table and return the events that match with the name or the description, anyways, Maybe in a future i will add the user search or maybe not.
+
+- 14 February 2026:
+    Today I Implemented JWT to the Project for security
