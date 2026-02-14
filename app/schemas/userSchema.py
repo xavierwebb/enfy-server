@@ -20,3 +20,8 @@ class UserLog(BaseModel):
 class UserReg(UserBase):
     email: EmailStr
     password: str
+
+class UserResponse(BaseModel):
+    user: UserDefinitive
+    token: str
+    token_type: str
