@@ -35,3 +35,6 @@ DEV-LOGS:
 
 - 14 February 2026:
     Today I Implemented JWT to the Project for security
+
+- 16 February 2026:
+  Today I Implemented a new Endpoint for fetchEvents
