@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.eventSchema import EventCreate, EventBuy
-from app.services.eventSevice import createEvent, buyEvent
+from app.services.eventSevice import createEvent, buyEvent, searchEvent
 
 router = APIRouter(
     prefix='/events',
@@ -17,4 +17,9 @@ def create_event(data: EventCreate, db: Session = Depends(get_db)):
 @router.post('/buyEvent')
 def buy_event(data: EventBuy,db: Session = Depends(get_db)):
     event = buyEvent(db, data)
+    return event
+
+@router.get('/fetchEvent/{id}')
+def fetch_event(id: int, db: Session = Depends(get_db)):
+    event = searchEvent(db, id)
     return event

@@ -28,7 +28,7 @@ def create_user(data: UserReg, db: Session = Depends(get_db)):
     return {
         'user': result['user'],
         'token': result['access_token'],
-        'token-type': result['token_type']
+        'token_type': result['token_type']
     }
 
 @router.post('/loginUser', response_model=UserResponse)
