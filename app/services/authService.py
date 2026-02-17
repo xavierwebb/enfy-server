@@ -2,6 +2,7 @@ import bcrypt
 from datetime import datetime, timedelta
 import jwt
 from app.auth import ACCESS_TOKEN_EXPIRE_DAYS, SECRET_KEY, ALGORITHM
+from fastapi import Cookie, HTTPException
 
 def hash_password(password: str):
 
@@ -23,3 +24,16 @@ def create_access_token(data: dict):
 
     token = jwt.encode(payload,SECRET_KEY, algorithm=ALGORITHM )
     return token
+
+def check_token(token: str = Cookie(None)):
+
+    if not token:
+        raise HTTPException(status_code=404, detail='There is no Token')
+    
+    tokenPayload = jwt.decode(
+        token,
+        SECRET_KEY,
+        algorithms=[ALGORITHM]
+    )
+    
+    return tokenPayload

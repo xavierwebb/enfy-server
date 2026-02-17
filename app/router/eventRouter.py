@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Cookie
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.eventSchema import EventCreate, EventBuy
