@@ -2,22 +2,13 @@ from fastapi import HTTPException, APIRouter, Depends, Response, Cookie
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services import userService
-from app.schemas.userSchema import UserDefinitive, UserReg, UserLog
-from app.services.authService import verify_password, create_access_token
+from app.schemas.userSchema import UserDefinitive, UserReg, UserLog, UserFetch
+from app.services.authService import verify_password, create_access_token, check_token
 router = APIRouter(
     prefix='/users',
     tags=['Users']
 )
 
-@router.get('/getUserById/{user_id}', response_model=UserDefinitive)
-def get_user(user_id: int, access_token: str = Cookie(None),db: Session = Depends(get_db)):
-
-    user = userService.get_userById(db,user_id)
-    
-    if not user:
-        raise HTTPException(status_code=404, detail='User not found')
-
-    return user
 
 @router.post('/createUser', response_model=UserDefinitive)
 def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)):
@@ -53,7 +44,7 @@ def login_user(data: UserLog, response: Response, db: Session = Depends(get_db))
 
     if (confirmPass == True):
         token = create_access_token({
-            'sub': db_user.id
+            'sub': str(db_user.id)
         })
 
         response.set_cookie(
@@ -68,3 +59,15 @@ def login_user(data: UserLog, response: Response, db: Session = Depends(get_db))
         return db_user
     
     raise HTTPException(status_code=401, detail='Incorrect password')
+
+@router.get('/fetchUser/{user_id}', response_model=UserFetch)
+def fetch_user(user_id: int, access_token: str = Cookie(None), db: Session = Depends(get_db)):
+    check_token(access_token)
+    return userService.get_userById(db, user_id)
+
+@router.get('/fetchMe', response_model=UserDefinitive)
+def fetch_me(access_token: str = Cookie(None), db: Session = Depends(get_db)):
+    
+    user_id = check_token(access_token)
+
+    return userService.get_userById(db, user_id)

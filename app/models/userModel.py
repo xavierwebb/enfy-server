@@ -8,17 +8,18 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
+    role = Column(String, default='Enthusiast')
     email = Column(String, unique=True)
     password = Column(String)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
 
-    ownedEvents = relationship(
+    eventsCreated = relationship(
         'Event', 
         back_populates='owner', 
         cascade='all, delete-orphan'
     )
 
-    paidEvents = relationship(
+    eventsBought = relationship(
         'Event',
         secondary = event_payments,
         back_populates='paidUsers'
