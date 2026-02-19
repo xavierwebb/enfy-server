@@ -25,8 +25,7 @@ def create_access_token(data: dict):
     token = jwt.encode(payload,SECRET_KEY, algorithm=ALGORITHM )
     return token
 
-def check_token(token: str = Cookie(None)):
-
+def check_token(token: str):
     if not token:
         raise HTTPException(status_code=404, detail='There is no Token')
     
@@ -36,4 +35,4 @@ def check_token(token: str = Cookie(None)):
         algorithms=[ALGORITHM]
     )
     
-    return tokenPayload
+    return tokenPayload.get('sub')

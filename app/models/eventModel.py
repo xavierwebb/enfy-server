@@ -30,10 +30,10 @@ class Event(Base):
     price = Column(Integer)
 
     owner_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    owner = relationship('User', back_populates='ownedEvents')
+    owner = relationship('User', back_populates='eventsCreated')
 
     paidUsers = relationship(
         'User',
         secondary=event_payments,
-        back_populates='paidEvents'
+        back_populates='eventsBought'
     )
