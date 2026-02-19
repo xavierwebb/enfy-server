@@ -38,3 +38,6 @@ DEV-LOGS:
 
 - 16 February 2026:
   Today I Implemented a new Endpoint for fetchEvents
+
+- 19 February 2026: 
+    Today I Implemented a Small fix for the token check and added the user fetch endpoints
