@@ -26,7 +26,7 @@ def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)
         httponly=True,
         secure=False,
         samesite='lax',
-        max_age=900
+        max_age=604800
     )
 
 
@@ -53,7 +53,7 @@ def login_user(data: UserLog, response: Response, db: Session = Depends(get_db))
             httponly=True,
             secure=False,
             samesite='lax',
-            max_age=900
+            max_age=604800
         )
 
         return db_user
@@ -67,7 +67,6 @@ def fetch_user(user_id: int, access_token: str = Cookie(None), db: Session = Dep
 
 @router.get('/fetchMe', response_model=UserDefinitive)
 def fetch_me(access_token: str = Cookie(None), db: Session = Depends(get_db)):
-    
     user_id = check_token(access_token)
 
     return userService.get_userById(db, user_id)

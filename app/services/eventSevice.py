@@ -5,8 +5,8 @@ from app.services.userService import get_userById
 from fastapi import HTTPException
 
 def createEvent(db: Session, data: EventCreate):
+    
     user = get_userById(db, data.owner_id)
-
     event = Event(
         name=data.name,
         description=data.description,
