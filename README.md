@@ -41,3 +41,9 @@ DEV-LOGS:
 
 - 19 February 2026: 
     Today I Implemented a Small fix for the token check and added the user fetch endpoints
+
+- 20 February 2026:
+    Today I Started the Fix of the create event Endpoint
+
+- 21 February 2026:
+    Today I finished the fix of the create event endpoint and fix another small problems
