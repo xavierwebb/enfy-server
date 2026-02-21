@@ -1,23 +1,33 @@
 from fastapi import APIRouter, Depends, Cookie, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.eventSchema import EventCreate, EventBuy
+from app.schemas.eventSchema import EventCreate, EventBuy, EventCreatePrev
 from app.services.authService import check_token
 from app.services.eventSevice import createEvent, buyEvent, searchEvent
 from app.models.userModel import User
+
 router = APIRouter(
     prefix='/events',
     tags=['events']
 )
 
 @router.post('/createEvent')
-def create_event(data: EventCreate, access_token: str = Cookie(None), db: Session = Depends(get_db)):
+def create_event(data: EventCreatePrev, access_token: str = Cookie(None), db: Session = Depends(get_db)):
     userId = check_token(access_token)
-
     user = db.query(User).filter(User.id == userId).first()
 
+    newData = EventCreate(
+        name = data.name,
+        description = data.description,
+        eventDate = data.eventDate,
+        ubication = data.ubication,
+        owner_id = user.id,
+        price = data.price,
+    )
+    
     if user.role == 'Admin' or user.role == 'Company':
-        event = createEvent(db, data)
+        event = createEvent(db, newData)
+
         return event
     else:
         raise HTTPException(status_code=403, detail='You are not authorized to create events')
