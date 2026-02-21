@@ -26,7 +26,7 @@ def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)
         httponly=True,
         secure=False,
         samesite='lax',
-        max_age=900
+        max_age=604800
     )
 
 
@@ -53,7 +53,7 @@ def login_user(data: UserLog, response: Response, db: Session = Depends(get_db))
             httponly=True,
             secure=False,
             samesite='lax',
-            max_age=900
+            max_age=604800
         )
 
         return db_user
