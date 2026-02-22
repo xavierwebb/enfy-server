@@ -13,12 +13,14 @@ class UserDefinitive(UserBase):
     createdAt: datetime
     eventsBought: List[EventDefinitive]
     eventsCreated: List[EventDefinitive]
+    profilePicture: str
     class Config:
         from_attributes = True
 
 class UserFetch(UserBase):
     id: int
-    email: str
+    role: str
+    profilePicture: str
     createdAt: datetime
     eventsCreated: List[EventDefinitive]
 

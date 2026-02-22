@@ -47,3 +47,6 @@ DEV-LOGS:
 
 - 21 February 2026:
     Today I finished the fix of the create event endpoint and fix another small problems
+
+- 22 February 2026:
+    Today I Fixed some minor details

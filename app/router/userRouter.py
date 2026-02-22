@@ -36,7 +36,6 @@ def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)
 def login_user(data: UserLog, response: Response, db: Session = Depends(get_db)):
 
     db_user = userService.get_userByEmail(db, data.email)
-
     if not db_user:
         raise HTTPException(status_code=404, detail='User not found')
     

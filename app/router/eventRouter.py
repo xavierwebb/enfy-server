@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Cookie, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas.eventSchema import EventCreate, EventBuy, EventCreatePrev
+from app.schemas.eventSchema import EventCreate, EventBuy, EventCreatePrev, EventDefinitive
 from app.services.authService import check_token
 from app.services.eventSevice import createEvent, buyEvent, searchEvent
 from app.models.userModel import User
@@ -11,7 +11,7 @@ router = APIRouter(
     tags=['events']
 )
 
-@router.post('/createEvent')
+@router.post('/createEvent', response_model=EventDefinitive)
 def create_event(data: EventCreatePrev, access_token: str = Cookie(None), db: Session = Depends(get_db)):
     userId = check_token(access_token)
     user = db.query(User).filter(User.id == userId).first()
@@ -37,7 +37,7 @@ def buy_event(data: EventBuy,db: Session = Depends(get_db)):
     event = buyEvent(db, data)
     return event
 
-@router.get('/fetchEvent/{id}')
+@router.get('/fetchEvent/{id}', response_model=EventDefinitive)
 def fetch_event(id: int, db: Session = Depends(get_db)):
     event = searchEvent(db, id)
     return event
