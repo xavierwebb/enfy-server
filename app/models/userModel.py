@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True)
     password = Column(String)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
+    profilePicture = Column(String, default='default')
 
     eventsCreated = relationship(
         'Event', 

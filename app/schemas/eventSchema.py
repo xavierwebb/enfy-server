@@ -18,6 +18,7 @@ class EventCreatePrev(EventBase):
 
 class EventDefinitive(EventCreate):
     id: int
+    status: str
 
 class EventBuy(EventDefinitive):
     user_id: int

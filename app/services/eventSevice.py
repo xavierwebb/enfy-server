@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.schemas.eventSchema import EventCreate, EventDefinitive, EventBuy
+from app.schemas.eventSchema import EventCreate, EventBuy
 from app.models.eventModel import Event
 from app.services.userService import get_userById
 from fastapi import HTTPException
