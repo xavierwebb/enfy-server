@@ -20,5 +20,7 @@ class EventDefinitive(EventCreate):
     id: int
     status: str
 
-class EventBuy(EventDefinitive):
-    user_id: int
+class EventBuy(BaseModel):
+    id: int
+    master_card: int
+    security_number: int

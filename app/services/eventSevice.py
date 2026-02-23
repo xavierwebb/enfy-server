@@ -28,9 +28,10 @@ def searchEvent(db: Session, event_id: int):
     
     return event
 
-def buyEvent(db: Session, data: EventBuy):
+def buyEvent(db: Session, data: EventBuy, user_id: int):
     event = searchEvent(db, data.id)
-    user = get_userById(db, data.user_id)
+    user = get_userById(db, user_id)
+    
     if not user:
         raise HTTPException(status_code=404, detail='User not found')
     
