@@ -50,3 +50,6 @@ DEV-LOGS:
 
 - 22 February 2026:
     Today I Fixed some minor details
+
+- 24 February 2026:
+    Today I implemented support for buy many Tickets by the same user.
