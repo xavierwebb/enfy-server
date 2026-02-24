@@ -34,13 +34,13 @@ def create_event(data: EventCreatePrev, access_token: str = Cookie(None), db: Se
 
 @router.post('/buyEvent')
 def buy_event(data: EventBuy, access_token: str = Cookie(None),db: Session = Depends(get_db)):
-
     user_id = check_token(access_token)
-    
     event = buyEvent(db, data, user_id)
+
     return event
 
 @router.get('/fetchEvent/{id}', response_model=EventDefinitive)
 def fetch_event(id: int, db: Session = Depends(get_db)):
     event = searchEvent(db, id)
+
     return event
