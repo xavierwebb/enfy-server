@@ -33,11 +33,14 @@ def create_event(data: EventCreatePrev, access_token: str = Cookie(None), db: Se
         raise HTTPException(status_code=403, detail='You are not authorized to create events')
 
 @router.post('/buyEvent')
-def buy_event(data: EventBuy,db: Session = Depends(get_db)):
-    event = buyEvent(db, data)
+def buy_event(data: EventBuy, access_token: str = Cookie(None),db: Session = Depends(get_db)):
+    user_id = check_token(access_token)
+    event = buyEvent(db, data, user_id)
+
     return event
 
 @router.get('/fetchEvent/{id}', response_model=EventDefinitive)
 def fetch_event(id: int, db: Session = Depends(get_db)):
     event = searchEvent(db, id)
+
     return event

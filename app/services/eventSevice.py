@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from app.schemas.eventSchema import EventCreate, EventBuy
-from app.models.eventModel import Event
+from app.models.eventModel import Event, event_payments
 from app.services.userService import get_userById
-from fastapi import HTTPException
+from fastapi import HTTPException, status
+from app.models.ticketModel import Ticket
 
 def createEvent(db: Session, data: EventCreate):
     
@@ -28,14 +29,34 @@ def searchEvent(db: Session, event_id: int):
     
     return event
 
-def buyEvent(db: Session, data: EventBuy):
+def check_bought(db: Session, event_id: int, user_id: int) -> bool:
+    return db.query(Ticket).filter(
+        Ticket.event_id == event_id,
+        Ticket.user_id == user_id
+    ).first() is not None
+
+def buyEvent(db: Session, data: EventBuy, user_id: int):
     event = searchEvent(db, data.id)
-    user = get_userById(db, data.user_id)
+    user = get_userById(db, user_id)
+
+    check = check_bought(db, data.id, user_id)
+
+    ticket = Ticket(
+        event_id = data.id,
+        user_id = user_id
+    )
+
     if not user:
         raise HTTPException(status_code=404, detail='User not found')
     
+    if check == True:
+        db.add(ticket)
+        db.commit()
+        db.refresh(ticket)
+        return
+
     event.paidUsers.append(user)
+    db.add(ticket)
     db.commit()
     db.refresh(event)
-
     return event
