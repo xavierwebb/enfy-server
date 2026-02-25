@@ -53,3 +53,7 @@ DEV-LOGS:
 
 - 24 February 2026:
     Today I implemented support for buy many Tickets by the same user.
+
+- 25 February 2026:
+    Today I implemented the endpoint for fetch tickets, so the user will know how many 
+    tickets he have for an specific event
