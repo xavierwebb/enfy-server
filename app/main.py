@@ -5,13 +5,19 @@ from app.router.searchRouter import router as searchRouter
 from app.router.ticketsRouter import router as ticketRouter
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 app.include_router(userRouter, prefix='/api')
 app.include_router(eventRouter, prefix='/api')
 app.include_router(searchRouter, prefix='/api')
 app.include_router(ticketRouter, prefix='/api')
+
+app.mount(
+    '/images',
+    StaticFiles(directory='app/images'),
+    name='images'
+)
 
 app.add_middleware(
     CORSMiddleware,
