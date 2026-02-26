@@ -57,3 +57,6 @@ DEV-LOGS:
 - 25 February 2026:
     Today I implemented the endpoint for fetch tickets, so the user will know how many 
     tickets he have for an specific event
+
+- 26 February 2026:
+    Today I Implemented the endpoint for change an user profie picture, I plan to create the Recommended Events function and some functions for companies and admins tomorrow.
