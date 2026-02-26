@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from fastapi import File
 from datetime import datetime
 from app.schemas.eventSchema import EventDefinitive
 from typing import List

@@ -1,8 +1,9 @@
-from fastapi import HTTPException, APIRouter, Depends, Response, Cookie
+from fastapi import HTTPException, APIRouter, UploadFile, Depends, Response, Cookie, File
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services import userService
 from app.schemas.userSchema import UserDefinitive, UserReg, UserLog, UserFetch
+import os
 from app.services.authService import verify_password, create_access_token, check_token
 router = APIRouter(
     prefix='/users',
@@ -69,3 +70,26 @@ def fetch_me(access_token: str = Cookie(None), db: Session = Depends(get_db)):
     user_id = check_token(access_token)
 
     return userService.get_userById(db, user_id)
+
+@router.post('/updatePicture')
+async def update_profile_picture( image: UploadFile = File(...), access_token: str = Cookie(None), db: Session = Depends(get_db)):
+    user_id = check_token(access_token)
+    user = userService.get_userById(db, user_id)
+
+    if image.content_type not in ['image/png','image/jpeg']:
+        raise HTTPException(status_code=400, detail='Invalid Image Format')
+    
+    ext = 'png' if image.content_type == 'image/png' else 'jpg'
+    filename = f"user_{user.id}.{ext}"
+    
+    path = os.path.join("app/images/users/", filename)
+
+    with open(path, "wb") as f:
+        f.write(await image.read())
+
+    user.profilePicture = f"/images/users/{filename}"
+    db.commit()
+
+    return {
+        'profilePicture': user.profilePicture
+    }
