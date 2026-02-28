@@ -4,7 +4,10 @@ from app.database import get_db
 from app.schemas.eventSchema import EventCreate, EventBuy, EventCreatePrev, EventDefinitive
 from app.services.authService import check_token
 from app.services.eventSevice import createEvent, buyEvent, searchEvent
+from app.services.categoryService import get_categories
 from app.models.userModel import User
+from app.models.eventModel import Event
+from sqlalchemy import or_
 
 router = APIRouter(
     prefix='/events',
@@ -44,3 +47,20 @@ def fetch_event(id: int, db: Session = Depends(get_db)):
     event = searchEvent(db, id)
 
     return event
+
+@router.get('/fetchRecommendedEvents')
+def fetch_recommended_events(access_token: str = Cookie(None), db: Session = Depends(get_db)):
+
+    user_id = check_token(access_token)
+    categories = get_categories(user_id, db)
+    
+    filters = [
+        Event.category.ilike(f"%{category}%")
+        for category in categories
+    ]
+
+    events = db.query(Event).filter(
+        or_(*filters)
+    ).all()
+
+    return events
