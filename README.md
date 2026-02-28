@@ -60,3 +60,6 @@ DEV-LOGS:
 
 - 26 February 2026:
     Today I Implemented the endpoint for change an user profie picture, I plan to create the Recommended Events function and some functions for companies and admins tomorrow.
+
+- 28 February 2026:
+    Today I implemented the system to obtain recommended events for the user. First, when you create a user, you also create "categories" preferred by the user, previously selected on the frontend. After that, the user makes a request to obtain the recommended events every time they are on the home page.
