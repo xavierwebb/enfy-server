@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services import userService
 from app.schemas.userSchema import UserDefinitive, UserReg, UserLog, UserFetch
+from app.services.categoryService import add_category
 import os
 from app.services.authService import verify_password, create_access_token, check_token
 router = APIRouter(
@@ -20,7 +21,12 @@ def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)
         raise HTTPException(status_code=400, detail='Email already registered')
     
     result = userService.create_user(db, data)
-    
+
+    user = userService.get_userByEmail(db, data.email)
+
+    for c in data.categories:
+        add_category(c,user.id, db)
+
     response.set_cookie(
         key='access_token',
         value=result['access_token'],

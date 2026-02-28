@@ -27,10 +27,11 @@ def create_user(db: Session, userData: UserReg):
     db.add(db_user)
     db.commit() 
     db.refresh(db_user)
-
+    
     token = create_access_token({
         'sub': str(db_user.id)
     })
+
     return {
         'user': db_user,
         'access_token': token,

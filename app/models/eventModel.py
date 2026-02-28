@@ -27,6 +27,7 @@ class Event(Base):
     creationDate = Column(DateTime(timezone=True), server_default=func.now())
     eventDate = Column(DateTime)
     ubication = Column(String)
+    category = Column(String, index=True)
     price = Column(Integer)
 
     owner_id = Column(Integer, ForeignKey('users.id'), nullable=False)

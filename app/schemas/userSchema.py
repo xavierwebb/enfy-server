@@ -32,3 +32,4 @@ class UserLog(BaseModel):
 class UserReg(UserBase):
     email: EmailStr
     password: str
+    categories: List[str]
