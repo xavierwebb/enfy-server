@@ -99,3 +99,16 @@ async def update_profile_picture( image: UploadFile = File(...), access_token: s
     return {
         'profilePicture': user.profilePicture
     }
+
+@router.post('/logout')
+def logout(response: Response, access_token: str = Cookie(None)):
+
+    check_token(access_token)
+
+    response.delete_cookie(
+        key='access_token',
+        httponly=True,
+        secure=False,
+        samesite='lax',
+    )
+    return {'detail': 'Logged Out'}
