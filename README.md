@@ -63,3 +63,6 @@ DEV-LOGS:
 
 - 28 February 2026:
     Today I implemented the system to obtain recommended events for the user. First, when you create a user, you also create "categories" preferred by the user, previously selected on the frontend. After that, the user makes a request to obtain the recommended events every time they are on the home page.
+
+- 1 March 2026:
+    Implemented logout function
