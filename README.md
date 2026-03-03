@@ -66,3 +66,6 @@ DEV-LOGS:
 
 - 1 March 2026:
     Implemented logout function
+
+- 3 March 2026:
+    I Fixed the recommended events fetch

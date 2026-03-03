@@ -69,5 +69,4 @@ def fetch_recommended_events(access_token: str = Cookie(None), db: Session = Dep
         .all()
     )
 
-    print([event.__dict__ for event in events])
     return events
