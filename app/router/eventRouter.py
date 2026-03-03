@@ -26,6 +26,7 @@ def create_event(data: EventCreatePrev, access_token: str = Cookie(None), db: Se
         ubication = data.ubication,
         owner_id = user.id,
         price = data.price,
+        category= data.category
     )
     
     if user.role == 'Admin' or user.role == 'Company':
@@ -50,17 +51,23 @@ def fetch_event(id: int, db: Session = Depends(get_db)):
 
 @router.get('/fetchRecommendedEvents')
 def fetch_recommended_events(access_token: str = Cookie(None), db: Session = Depends(get_db)):
-
     user_id = check_token(access_token)
+
     categories = get_categories(user_id, db)
-    
+
+    if not categories:
+        return []
+
     filters = [
-        Event.category.ilike(f"%{category}%")
+        Event.category.ilike(f"%{category.category}%")
         for category in categories
     ]
 
-    events = db.query(Event).filter(
-        or_(*filters)
-    ).all()
+    events = (
+        db.query(Event)
+        .filter(or_(*filters))
+        .all()
+    )
 
+    print([event.__dict__ for event in events])
     return events

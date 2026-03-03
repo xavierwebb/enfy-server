@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from app.schemas.eventSchema import EventCreate, EventBuy
-from app.models.eventModel import Event, event_payments
+from app.models.eventModel import Event
 from app.services.userService import get_userById
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 from app.models.ticketModel import Ticket
 
 def createEvent(db: Session, data: EventCreate):
@@ -14,7 +14,8 @@ def createEvent(db: Session, data: EventCreate):
         ubication=data.ubication,
         eventDate=data.eventDate,
         owner=user,
-        price=data.price
+        price=data.price,
+        category= data.category
     )
 
     db.add(event)

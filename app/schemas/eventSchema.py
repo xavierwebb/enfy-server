@@ -10,11 +10,13 @@ class EventCreate(EventBase):
     ubication: str
     owner_id: int
     price: int
+    category: str
 
 class EventCreatePrev(EventBase):
     eventDate: datetime
     ubication: str
     price: int
+    category: str
 
 class EventDefinitive(EventCreate):
     id: int
