@@ -69,3 +69,6 @@ DEV-LOGS:
 
 - 3 March 2026:
     I Fixed the recommended events fetch
+
+- 4 March 2026:
+    Today I implemented the handling of completed events, ensuring that events that have ended are not sent to the client, and that once the event date has passed, the status changes to finished.
