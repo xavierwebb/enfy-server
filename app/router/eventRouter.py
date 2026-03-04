@@ -65,7 +65,7 @@ def fetch_recommended_events(access_token: str = Cookie(None), db: Session = Dep
 
     events = (
         db.query(Event)
-        .filter(or_(*filters))
+        .filter(or_(*filters), Event.status == 'active')
         .all()
     )
 

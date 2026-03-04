@@ -17,7 +17,7 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     status = Column(
-        Enum('active', 'finished', 'cancelled', name='event_status'), 
+        Enum('active', 'in_progress','finished', 'cancelled', name='event_status'), 
         default='active', 
         index=True
     )

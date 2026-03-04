@@ -25,6 +25,11 @@ def createEvent(db: Session, data: EventCreate):
 
 def searchEvent(db: Session, event_id: int):
     event = db.query(Event).filter(Event.id == event_id).first()
+
+    if event.status == 'finished' or event.status == 'cancelled':
+        raise HTTPException(status_code=403, detail='This event is already finished')
+
+
     if not event:
         raise HTTPException(status_code=404, detail='Event not found')
     
@@ -39,6 +44,9 @@ def check_bought(db: Session, event_id: int, user_id: int) -> bool:
 def buyEvent(db: Session, data: EventBuy, user_id: int):
     event = searchEvent(db, data.id)
     user = get_userById(db, user_id)
+
+    if event.status == 'in_progress' or event.status == 'finished' or event.status == 'cancelled':
+        raise HTTPException(status_code=403, detail='You are not authorized to purchase this event due to its status')
 
     check = check_bought(db, data.id, user_id)
 
