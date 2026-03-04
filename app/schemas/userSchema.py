@@ -33,3 +33,11 @@ class UserReg(UserBase):
     email: EmailStr
     password: str
     categories: List[str]
+
+class Aplication(BaseModel):
+    name: str
+    contact: str
+    theme: str
+
+class AplicationCreation(Aplication):
+    user_id: int
