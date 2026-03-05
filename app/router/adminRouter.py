@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException
 from app.models.aplicationsModel import Aplications
 from app.services.authService import check_token, check_admin
 from app.models.userModel import User
+from app.schemas.userSchema import AplicationAcceptReject
 
 router = APIRouter(
     prefix='/admin',
@@ -19,19 +20,17 @@ def view_business_aplications(access_token: str = Cookie(None),db: Session = Dep
     return db.query(Aplications).filter(Aplications.status == 'active').all()
 
 @router.post('/accept_application')
-def application(id: int,access_token: str = Cookie(None), db: Session = Depends(get_db)):
+def application(data: AplicationAcceptReject, access_token: str = Cookie(None), db: Session = Depends(get_db)):
     check_admin(db, access_token)
 
-    user_id = check_token(access_token)
-
-    application = db.query(Aplications).filter(Aplications.id == id).first()
+    application = db.query(Aplications).filter(Aplications.id == data.id).first()
     
     if not application:
         raise HTTPException(status_code=404, detail='Aplication not found')
 
     application.status = 'finished'
 
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(User).filter(User.id == application.user_id).first()
     user.role = 'Company'
 
     db.commit()
@@ -39,7 +38,7 @@ def application(id: int,access_token: str = Cookie(None), db: Session = Depends(
     return {'detail':'Application Accepted!'}
 
 @router.post('/reject_application')
-def application(id: int,access_token: str = Cookie(None), db: Session = Depends(get_db)):
+def application(id: int, access_token: str = Cookie(None), db: Session = Depends(get_db)):
     check_admin(db, access_token)
 
     application = db.query(Aplications).filter(Aplications.id == id).first()

@@ -41,3 +41,6 @@ class Aplication(BaseModel):
 
 class AplicationCreation(Aplication):
     user_id: int
+
+class AplicationAcceptReject(BaseModel):
+    id: int
