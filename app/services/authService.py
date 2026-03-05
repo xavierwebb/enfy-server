@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import jwt
 from app.auth import ACCESS_TOKEN_EXPIRE_DAYS, SECRET_KEY, ALGORITHM
 from fastapi import Cookie, HTTPException
+from sqlalchemy.orm import Session
 
 def hash_password(password: str):
 
@@ -36,3 +37,13 @@ def check_token(token: str):
     )
     
     return tokenPayload.get('sub')
+
+def check_admin(db: Session, access_token: str):
+    from app.services.userService import get_userById
+    user_id = check_token(access_token)
+    user = get_userById(db, user_id)
+
+    if not user.role == 'Admin':
+        raise HTTPException(status_code=403, detail='You are not authorized for make this action')
+    
+    return

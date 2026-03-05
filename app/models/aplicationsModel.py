@@ -1,5 +1,5 @@
 from app.database import Base
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Enum
 
 class Aplications(Base):
     __tablename__ = 'aplications'
@@ -9,3 +9,8 @@ class Aplications(Base):
     name = Column(String)
     contact = Column(String)
     theme = Column(String)
+    status = Column(
+        Enum('active', 'finished', name='status'), 
+        default='active', 
+        index=True
+    )
