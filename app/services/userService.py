@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from app.models.userModel import User
-from app.schemas.userSchema import UserReg
+from app.schemas.userSchema import UserReg, AplicationCreation
 from app.services.authService import hash_password, create_access_token
 from fastapi import HTTPException
-
+from app.models.aplicationsModel import Aplications
 def get_userById(db: Session, id: int):
     user = db.query(User).filter(User.id == id).first()
 
@@ -37,3 +37,16 @@ def create_user(db: Session, userData: UserReg):
         'access_token': token,
         'token_type': 'bearer'
     }
+
+def create_aplication(db: Session, data: AplicationCreation):
+    db_app = Aplications(
+        user_id = data.user_id,
+        name=data.name,
+        contact=data.contact,
+        theme=data.theme
+    )
+
+    db.add(db_app)
+    db.commit()
+    db.refresh(db_app)
+    return {'detail':'Aplication created!'}

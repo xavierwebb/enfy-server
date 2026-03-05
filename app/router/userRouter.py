@@ -2,7 +2,7 @@ from fastapi import HTTPException, APIRouter, UploadFile, Depends, Response, Coo
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services import userService
-from app.schemas.userSchema import UserDefinitive, UserReg, UserLog, UserFetch
+from app.schemas.userSchema import UserDefinitive, UserReg, UserLog, UserFetch, Aplication, AplicationCreation
 from app.services.categoryService import add_category
 import os
 from app.services.authService import verify_password, create_access_token, check_token
@@ -112,3 +112,15 @@ def logout(response: Response, access_token: str = Cookie(None)):
         samesite='lax',
     )
     return {'detail': 'Logged Out'}
+
+@router.post('/business_aplication')
+def business_aplication(data: Aplication, access_token: str = Cookie(None), db: Session = Depends(get_db)):
+    user_id = check_token(access_token)
+
+    newData = AplicationCreation(
+        user_id=user_id,
+        name=data.name,
+        contact=data.contact,
+        theme=data.theme
+    )
+    return userService.create_aplication(db, newData)
