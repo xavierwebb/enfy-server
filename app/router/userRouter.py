@@ -31,8 +31,8 @@ def create_user(data: UserReg, response: Response, db: Session = Depends(get_db)
         key='access_token',
         value=result['access_token'],
         httponly=True,
-        secure=False,
-        samesite='lax',
+        secure=True,
+        samesite='none',
         max_age=604800
     )
 
@@ -57,8 +57,8 @@ def login_user(data: UserLog, response: Response, db: Session = Depends(get_db))
             key='access_token',
             value=token,
             httponly=True,
-            secure=False,
-            samesite='lax',
+            secure=True,
+            samesite='none',
             max_age=604800
         )
 
@@ -108,8 +108,8 @@ def logout(response: Response, access_token: str = Cookie(None)):
     response.delete_cookie(
         key='access_token',
         httponly=True,
-        secure=False,
-        samesite='lax',
+        secure=True,
+        samesite='none',
     )
     return {'detail': 'Logged Out'}
 
