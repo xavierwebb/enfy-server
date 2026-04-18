@@ -1,17 +1,22 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import joinedload, with_loader_criteria, Session
 from app.models.userModel import User
 from app.schemas.userSchema import UserReg, AplicationCreation
 from app.services.authService import hash_password, create_access_token
 from fastapi import HTTPException
 from app.models.aplicationsModel import Aplications
+from app.models.eventModel import Event
+
 def get_userById(db: Session, id: int):
-    user = db.query(User).filter(User.id == id).first()
+    user = db.query(User).options(
+        joinedload(User.eventsCreated),
+        joinedload(User.eventsBought),
+        with_loader_criteria(Event, Event.status == 'active')
+    ).filter(User.id == id).first()
 
     if not user:
         raise HTTPException(status_code=404, detail='User not found')
     
     return user
-    
 
 def get_userByEmail(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()
